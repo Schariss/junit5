@@ -1,13 +1,34 @@
 package com.adnane;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.Collection;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ContactManagerTest {
+
+    // BeforeXXX Used to perform some initialization tasks for tests
+    @BeforeAll
+    public static void ba(){
+        System.out.println("Before All");
+    }
+
+    @BeforeEach
+    public void be(){
+        System.out.println("Before Each");
+    }
+
+    // AfterXXX Used to perform cleanup tasks for tests
+    @AfterAll
+    public static void aa(){
+        System.out.println("After All");
+    }
+
+    @AfterEach
+    public void ae(){
+        System.out.println("After Each");
+    }
 
     @Test
     public void shouldCreateContact(){
