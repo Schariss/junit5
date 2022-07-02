@@ -1,4 +1,4 @@
-package com.programming.techie;
+package com.adnane;
 
 public class Contact {
     private String firstName;
@@ -18,6 +18,8 @@ public class Contact {
     public String getLastName() {
         return lastName;
     }
+
+    public String getPhoneNumber() { return this.phoneNumber; }
 
     public void validateFirstName() {
         if (this.firstName.isBlank())
