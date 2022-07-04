@@ -5,6 +5,7 @@ import org.junit.jupiter.api.*;
 import java.util.Collection;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 // JUnit instantiates the test class only once
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -79,6 +80,16 @@ class ContactManagerTest {
         assertThrows(
                 RuntimeException.class,
                 () -> contactManager.addContact("Adnane", "Chahid", null));
+    }
+
+    @Test
+    @DisplayName("Test Contact Creation On Developer Machine")
+    public void shouldCreateContactOnDev(){
+        assumeTrue("DEV".equals(System.getProperty("ENV")));
+        contactManager.addContact("Adnane", "Chahid", "0123456789");
+        Collection<Contact> contacts = contactManager.getAllContacts();
+        assertFalse(contacts.isEmpty());
+        assertEquals(1, contacts.size());
     }
 
     // AfterXXX Used to perform cleanup tasks for tests
