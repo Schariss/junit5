@@ -6,34 +6,38 @@ import java.util.Collection;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+// JUnit instantiates the test class only once
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ContactManagerTest {
+
+    private static int i = 0;
+    private ContactManager contactManager;
+
+    public  ContactManagerTest(){
+        // Junit instantiates the tests for each test method
+        // We can change this behavior so that it will create one instance of the class
+        // By adding the TestInstance annotation to the top of teh class
+        System.out.println("i : " + ++i);
+    }
 
     // BeforeXXX Used to perform some initialization tasks for tests
     @BeforeAll
-    public static void ba(){
-        System.out.println("Before All");
+    // When we use the TestInstance Lifecycle per class
+    // We can remove the static keyword because we will have only one instance of the test class
+    // Instead of  public static void ba()
+    public void ba(){
+        System.out.println("Should print Before All Tests");
     }
 
     @BeforeEach
     public void be(){
-        System.out.println("Before Each");
-    }
-
-    // AfterXXX Used to perform cleanup tasks for tests
-    @AfterAll
-    public static void aa(){
-        System.out.println("After All");
-    }
-
-    @AfterEach
-    public void ae(){
-        System.out.println("After Each");
+        System.out.println("Should execute before each Test");
+        contactManager = new ContactManager();
     }
 
     @Test
     public void shouldCreateContact(){
-        // Given
-        ContactManager contactManager = new ContactManager();
+        System.out.println("shouldCreateContact");
         // When
         contactManager.addContact("Adnane", "Chahid", "0123456789");
         // Then
@@ -53,7 +57,7 @@ class ContactManagerTest {
     @Test
     @DisplayName("Should Not Create Contact When Firstname is Null")
     public void shouldThrowRuntimeExceptionWhenFirstNameIsNull(){
-        ContactManager contactManager = new ContactManager();
+        System.out.println("shouldThrowRuntimeExceptionWhenFirstNameIsNull");
         assertThrows(
                 RuntimeException.class,
                 () -> contactManager.addContact(null, "Chahid", "0123456789"));
@@ -62,7 +66,7 @@ class ContactManagerTest {
     @Test
     @DisplayName("Should Not Create Contact When Lastname is Null")
     public void shouldThrowRuntimeExceptionWhenLastNameIsNull(){
-        ContactManager contactManager = new ContactManager();
+        System.out.println("shouldThrowRuntimeExceptionWhenLastNameIsNull");
         assertThrows(
                 RuntimeException.class,
                 () -> contactManager.addContact("Adnane", null, "0123456789"));
@@ -71,9 +75,21 @@ class ContactManagerTest {
     @Test
     @DisplayName("Should Not Create Contact When PhoneNumber is Null")
     public void shouldThrowRuntimeExceptionWhenPhoneNumberIsNull(){
-        ContactManager contactManager = new ContactManager();
+        System.out.println("shouldThrowRuntimeExceptionWhenPhoneNumberIsNull");
         assertThrows(
                 RuntimeException.class,
                 () -> contactManager.addContact("Adnane", "Chahid", null));
+    }
+
+    // AfterXXX Used to perform cleanup tasks for tests
+    @AfterEach
+    public void ae(){
+        System.out.println("Should execute after each Test");
+    }
+
+    @AfterAll
+    // Same as Before All we remove the static keyword
+    public void aa(){
+        System.out.println("Should be executed at the end of the Test");
     }
 }
